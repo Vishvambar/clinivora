@@ -151,9 +151,9 @@ export default function InvestigationsTab() {
             <Sparkles className="h-5 w-5" />
             AI Suggested Investigations
           </CardTitle>
-          <p className="text-sm text-blue-600">
-            Based on the patient's presentation, these investigations are recommended
-          </p>
+          <p className="text-sm text-muted-foreground">
+                Based on the patient&apos;s presentation, these investigations are recommended
+              </p>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
