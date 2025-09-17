@@ -6,10 +6,30 @@ import { useForm } from '@/contexts/FormContext'
 import { Brain, Target, FlaskConical, Stethoscope, AlertTriangle, TrendingUp } from 'lucide-react'
 
 const mockSystemsInvolved = [
-  { system: 'Respiratory System', confidence: 85, color: 'bg-red-100 text-red-800' },
-  { system: 'Cardiovascular System', confidence: 72, color: 'bg-orange-100 text-orange-800' },
-  { system: 'Gastrointestinal System', confidence: 45, color: 'bg-yellow-100 text-yellow-800' },
-  { system: 'Neurological System', confidence: 30, color: 'bg-green-100 text-green-800' },
+  { 
+    system: 'Respiratory System', 
+    confidence: 85, 
+    color: 'bg-red-100 text-red-800',
+    reason: 'Chest pain, dyspnea, and respiratory symptoms suggest respiratory involvement'
+  },
+  { 
+    system: 'Cardiovascular System', 
+    confidence: 72, 
+    color: 'bg-orange-100 text-orange-800',
+    reason: 'Chest pain and risk factors indicate possible cardiac etiology'
+  },
+  { 
+    system: 'Gastrointestinal System', 
+    confidence: 45, 
+    color: 'bg-yellow-100 text-yellow-800',
+    reason: 'Some symptoms may overlap with GI conditions'
+  },
+  { 
+    system: 'Neurological System', 
+    confidence: 30, 
+    color: 'bg-green-100 text-green-800',
+    reason: 'Anxiety or stress-related symptoms possible'
+  },
 ]
 
 const mockSuggestedTests = [
@@ -58,12 +78,12 @@ const mockTreatmentGuidelines = [
     ]
   },
   {
-    condition: 'Pneumonia Management',
+    condition: 'Microbiotic Therapy Management',
     guidelines: [
-      'Empirical antibiotic therapy based on severity',
-      'Supportive care with hydration and rest',
-      'Monitor for complications (sepsis, respiratory failure)',
-      'Follow-up chest imaging in 6-8 weeks',
+      'Consider targeted microbiotic therapy based on patient microbiome analysis',
+      'Assess gut-lung axis involvement in respiratory conditions',
+      'Monitor for microbiome restoration and symptom improvement',
+      'Combine with conventional therapy for optimal outcomes',
     ]
   }
 ]
@@ -116,22 +136,25 @@ export default function AISuggestionsTab() {
         <CardContent>
           <div className="space-y-3">
             {mockSystemsInvolved.map((system) => (
-              <div key={system.system} className="flex items-center justify-between p-3 rounded-lg border">
-                <div className="flex items-center gap-3">
-                  <div className={`w-3 h-3 rounded-full ${system.color.split(' ')[0]}`}></div>
-                  <span className="font-medium">{system.system}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full ${system.color.split(' ')[0]}`}
-                      style={{ width: `${system.confidence}%` }}
-                    ></div>
+              <div key={system.system} className="border rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-3 h-3 rounded-full ${system.color.split(' ')[0]}`}></div>
+                    <span className="font-medium">{system.system}</span>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${system.color}`}>
-                    {system.confidence}%
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-24 bg-gray-200 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full ${system.color.split(' ')[0]}`}
+                        style={{ width: `${system.confidence}%` }}
+                      ></div>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${system.color}`}>
+                      {system.confidence}%
+                    </span>
+                  </div>
                 </div>
+                <p className="text-sm text-gray-600 ml-6">{system.reason}</p>
               </div>
             ))}
           </div>

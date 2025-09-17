@@ -14,6 +14,7 @@ export interface Demographics {
     alcohol: boolean
     familyHistory: boolean
     travelOccupational: boolean
+    otherFactors: string
   }
 }
 
@@ -27,6 +28,7 @@ export interface History {
   duration: string
   progression: string
   associatedSymptoms: string[]
+  otherSymptoms: string
 }
 
 export interface Examination {
@@ -39,12 +41,57 @@ export interface Examination {
     bmi: string
   }
   generalExamination: string[]
-  systemExamination: string[]
+  otherExamination: string
+  systemExamination: {
+    respiratory: {
+      normal: boolean
+      wheeze: boolean
+      crepitations: boolean
+      reducedAirEntry: boolean
+      notes: string
+    }
+    cardio: {
+      normal: boolean
+      murmur: boolean
+      gallop: boolean
+      pedalEdema: boolean
+      raisedJVP: boolean
+      notes: string
+    }
+    abdomen: {
+      soft: boolean
+      tender: boolean
+      hepatomegaly: boolean
+      splenomegaly: boolean
+      ascites: boolean
+      notes: string
+    }
+    neuro: {
+      gcs: string
+      focalDeficit: boolean
+      seizureActivity: boolean
+      notes: string
+    }
+    msk: {
+      jointSwelling: boolean
+      tenderness: boolean
+      deformity: boolean
+      notes: string
+    }
+    guObg: {
+      uterineSize: string
+      discharge: boolean
+      pregnancySigns: boolean
+      notes: string
+    }
+  }
 }
 
 export interface Investigations {
   available: string[]
   suggested: string[]
+  otherInvestigations: string
+  uploadedReports: File[]
 }
 
 export interface AIData {
@@ -64,6 +111,12 @@ export interface FormData {
   examination: Examination
   investigations: Investigations
   aiData: AIData
+  feedback: {
+    aiAccuracy?: boolean
+    aiUsefulness?: boolean
+    comments: string
+    suggestions: string
+  }
 }
 
 interface FormContextType {
@@ -74,6 +127,7 @@ interface FormContextType {
   updateExamination: (data: Partial<Examination>) => void
   updateInvestigations: (data: Partial<Investigations>) => void
   updateAIData: (data: Partial<AIData>) => void
+  updateFeedback: (data: Partial<FormData['feedback']>) => void
   currentTab: string
   setCurrentTab: (tab: string) => void
 }
@@ -93,6 +147,7 @@ const initialFormData: FormData = {
       alcohol: false,
       familyHistory: false,
       travelOccupational: false,
+      otherFactors: '',
     },
   },
   complaints: {
@@ -104,6 +159,7 @@ const initialFormData: FormData = {
     duration: '',
     progression: '',
     associatedSymptoms: [],
+    otherSymptoms: '',
   },
   examination: {
     vitals: {
@@ -115,11 +171,56 @@ const initialFormData: FormData = {
       bmi: '',
     },
     generalExamination: [],
-    systemExamination: [],
+    otherExamination: '',
+    systemExamination: {
+      respiratory: {
+        normal: false,
+        wheeze: false,
+        crepitations: false,
+        reducedAirEntry: false,
+        notes: '',
+      },
+      cardio: {
+        normal: false,
+        murmur: false,
+        gallop: false,
+        pedalEdema: false,
+        raisedJVP: false,
+        notes: '',
+      },
+      abdomen: {
+        soft: false,
+        tender: false,
+        hepatomegaly: false,
+        splenomegaly: false,
+        ascites: false,
+        notes: '',
+      },
+      neuro: {
+        gcs: '',
+        focalDeficit: false,
+        seizureActivity: false,
+        notes: '',
+      },
+      msk: {
+        jointSwelling: false,
+        tenderness: false,
+        deformity: false,
+        notes: '',
+      },
+      guObg: {
+        uterineSize: '',
+        discharge: false,
+        pregnancySigns: false,
+        notes: '',
+      },
+    },
   },
   investigations: {
     available: [],
     suggested: [],
+    otherInvestigations: '',
+    uploadedReports: [],
   },
   aiData: {
     probableSystems: ['Respiratory System', 'Cardiovascular System'],
@@ -130,6 +231,12 @@ const initialFormData: FormData = {
       { diagnosis: 'COPD Exacerbation', confidence: 60 },
     ],
     treatmentGuidelines: 'Consider antibiotic therapy based on clinical presentation and severity. Monitor oxygen saturation and provide supportive care.',
+  },
+  feedback: {
+    aiAccuracy: undefined,
+    aiUsefulness: undefined,
+    comments: '',
+    suggestions: '',
   },
 }
 
@@ -179,6 +286,13 @@ export function FormProvider({ children }: { children: ReactNode }) {
     }))
   }
 
+  const updateFeedback = (data: Partial<FormData['feedback']>) => {
+    setFormData(prev => ({
+      ...prev,
+      feedback: { ...prev.feedback, ...data },
+    }))
+  }
+
   return (
     <FormContext.Provider
       value={{
@@ -189,6 +303,7 @@ export function FormProvider({ children }: { children: ReactNode }) {
         updateExamination,
         updateInvestigations,
         updateAIData,
+        updateFeedback,
         currentTab,
         setCurrentTab,
       }}

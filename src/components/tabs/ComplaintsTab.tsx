@@ -54,7 +54,7 @@ export default function ComplaintsTab() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <MessageSquare className="h-5 w-5" />
-            Presenting Complaints
+            Chief Complaints
           </CardTitle>
         </CardHeader>
         <CardContent>

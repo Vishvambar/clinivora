@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox'
 import { useForm } from '@/contexts/FormContext'
 import { Clock, Activity } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 const onsetOptions = [
   'Sudden (minutes)',
@@ -161,6 +162,20 @@ export default function HistoryTab() {
                 </Label>
               </div>
             ))}
+          </div>
+          
+          {/* Other Symptoms Text Field */}
+          <div className="mt-6">
+            <Label htmlFor="otherSymptoms" className="text-base font-medium">
+              Other Symptoms
+            </Label>
+            <Input
+              id="otherSymptoms"
+              value={history.otherSymptoms}
+              onChange={(e) => updateHistory({ otherSymptoms: e.target.value })}
+              placeholder="Describe any other symptoms not listed above..."
+              className="mt-2 h-12 text-base"
+            />
           </div>
         </CardContent>
       </Card>

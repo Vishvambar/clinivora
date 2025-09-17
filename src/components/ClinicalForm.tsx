@@ -12,6 +12,7 @@ import {
   Stethoscope, 
   FlaskConical, 
   Brain,
+  MessageCircle,
   ChevronLeft,
   ChevronRight
 } from 'lucide-react'
@@ -23,6 +24,7 @@ import HistoryTab from './tabs/HistoryTab'
 import ExaminationTab from './tabs/ExaminationTab'
 import InvestigationsTab from './tabs/InvestigationsTab'
 import AISuggestionsTab from './tabs/AISuggestionsTab'
+import FeedbackTab from './tabs/FeedbackTab'
 
 const tabs = [
   { id: 'demographics', label: 'Demographics', icon: User },
@@ -31,6 +33,7 @@ const tabs = [
   { id: 'examination', label: 'Examination', icon: Stethoscope },
   { id: 'investigations', label: 'Investigations', icon: FlaskConical },
   { id: 'ai-suggestions', label: 'AI Suggestions', icon: Brain },
+  { id: 'feedback', label: 'Feedback', icon: MessageCircle },
 ]
 
 export default function ClinicalForm() {
@@ -58,7 +61,7 @@ export default function ClinicalForm() {
         {/* Header */}
         <div className="mb-10 mt-5">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Clinivora
+            Clinivora AI
           </h1>
           
         </div>
@@ -85,7 +88,7 @@ export default function ClinicalForm() {
           <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
             {/* Tab Navigation */}
             <CardHeader className="pb-4">
-              <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 h-auto p-1 bg-gray-100">
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-7 h-auto p-1 bg-gray-100">
                 {tabs.map((tab) => {
                   const Icon = tab.icon
                   return (
@@ -126,6 +129,10 @@ export default function ClinicalForm() {
               
               <TabsContent value="ai-suggestions" className="mt-0">
                 <AISuggestionsTab />
+              </TabsContent>
+
+              <TabsContent value="feedback" className="mt-0">
+                <FeedbackTab />
               </TabsContent>
 
               {/* Navigation Buttons */}

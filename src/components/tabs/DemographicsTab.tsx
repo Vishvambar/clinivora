@@ -17,11 +17,11 @@ export default function DemographicsTab() {
     updateDemographics({ [field]: value })
   }
 
-  const handleRiskFactorChange = (factor: string, checked: boolean) => {
+  const handleRiskFactorChange = (factor: string, value: boolean | string) => {
     updateDemographics({
       riskFactors: {
         ...demographics.riskFactors,
-        [factor]: checked,
+        [factor]: value,
       },
     })
   }
@@ -166,6 +166,16 @@ export default function DemographicsTab() {
               <Label htmlFor="travelOccupational" className="text-base font-medium">
                 Travel/Occupational Exposure
               </Label>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="otherFactors">Other Risk Factors</Label>
+              <Input
+                id="otherFactors"
+                placeholder="Specify other risk factors"
+                value={demographics.riskFactors.otherFactors}
+                onChange={(e) => handleRiskFactorChange('otherFactors', e.target.value)}
+              />
             </div>
           </div>
         </CardContent>

@@ -6,6 +6,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { useForm } from '@/contexts/FormContext'
 import { FlaskConical, Sparkles, CheckCircle } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Upload } from 'lucide-react'
 
 const availableInvestigations = [
   // Laboratory Tests
@@ -140,6 +142,60 @@ export default function InvestigationsTab() {
                 </Label>
               </div>
             ))}
+          </div>
+          
+          {/* Other Investigations Text Field */}
+          <div className="mt-6">
+            <Label htmlFor="otherInvestigations" className="text-base font-medium">
+              Other Investigations
+            </Label>
+            <Input
+              id="otherInvestigations"
+              value={investigations.otherInvestigations}
+              onChange={(e) => updateInvestigations({ otherInvestigations: e.target.value })}
+              placeholder="Describe any other investigations not listed above..."
+              className="mt-2 h-12 text-base"
+            />
+          </div>
+          
+          {/* Upload Reports Option */}
+          <div className="mt-6">
+            <Label htmlFor="uploadReports" className="text-base font-medium">
+              Upload Reports
+            </Label>
+            <div className="mt-2 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+              <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
+              <p className="text-sm text-gray-600 mb-2">
+                Click to upload or drag and drop
+              </p>
+              <p className="text-xs text-gray-500">
+                PDF, JPG, PNG up to 10MB
+              </p>
+              <input
+                id="uploadReports"
+                type="file"
+                multiple
+                accept=".pdf,.jpg,.jpeg,.png"
+                className="hidden"
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || [])
+                  updateInvestigations({ uploadedReports: files })
+                }}
+              />
+              <label
+                htmlFor="uploadReports"
+                className="mt-2 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+              >
+                Choose Files
+              </label>
+            </div>
+            {investigations.uploadedReports && investigations.uploadedReports.length > 0 && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-600">
+                  {investigations.uploadedReports.length} file(s) selected
+                </p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
